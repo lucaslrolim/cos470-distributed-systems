@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
     int wait = 0;
     if(pidStatus > 0){
     // PRODUCER
+        close(fd[0]);
         for(int i = 0;i < numberToProduce;i++){
             int product = getRandomNumber(inferiorLimit);
             inferiorLimit = product;
@@ -71,21 +72,23 @@ int main(int argc, char* argv[]) {
         }
         cout << "All products were sent" << endl;
         write(fd[1], "0", sizeof("0")+1);
-        close(fd[1]);
         exit(0);
     }
     else{
     // CONSUMER
         while(true){
+            close(fd[1]);
             char str_recebida[BUFFER];
-            read(fd[0], str_recebida, sizeof(str_recebida));
-            int number = atoi(str_recebida);
-            if (number == 0){
-                break;
+            int status = read(fd[0], str_recebida, sizeof(str_recebida));
+            if(status >1){
+                int number = atoi(str_recebida);
+                if (number == 0){
+                    break;
+                }
+                cout << "Consumer received: " << str_recebida << endl;
+                bool prime = isPrime(number);
+                cout << "Number " << str_recebida << " is prime: " << prime << endl;
             }
-            cout << "Consumer received: " << str_recebida << endl;
-            bool prime = isPrime(number);
-            cout << "Number " << str_recebida << " is prime: " << prime << endl;
         }
         cout << "Consumer received 0. Finishing process..." << endl;
         close(fd[0]);
