@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
 
 
 	int numberOfThreads = numberConsumerThreads+numberProducerThreads;
-	numbersToProcess = 10; // number of numbers that consumer will process
+	numbersToProcess = 1000; // number of numbers that consumer will process
 	thread producerConsumerThreads[numberOfThreads];
 	// Fill memory vector with the argument spaces
 	for (int i = 0; i < spaces; ++i){
