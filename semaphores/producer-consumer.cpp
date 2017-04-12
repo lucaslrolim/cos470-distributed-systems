@@ -6,13 +6,29 @@
 #include <math.h>
 #include <time.h>
 #include <unistd.h>
-
 #include <thread> 
 #include <mutex> 
+#include <condition_variable>
+#include <chrono>
+#include <atomic>
+
 
 using namespace std;
+
+// Memory Vectors
 vector<int> sharedMemory; // vector with N positions (full of zeros)
 vector<int> consumerMemory;
+// Semaphores Variables
+mutex s_mutex; // mutex semaphore 
+condition_variable s_full;  // semaphore to indicate full shared memory
+condition_variable s_empty;  // semaphore to indicate empty shared memory 
+
+int numbersToProcess;
+int spaces;
+int elements = 0;
+atomic<int> p_working(0);
+int produced = 0;
+int consumed = 0;
 
 bool isPrime(int number){
     int i;
@@ -58,57 +74,80 @@ int findProductPosition(vector<int> myVector){
 	return targetPosition;
 }
 
-void producer(int p_id){
+void produce(int p_id){
+	unique_lock<mutex> lock(s_mutex);
 	int positionToStore = findEmptyPosition(sharedMemory); // -1 if the vector is full
-	if(positionToStore != -1){ // MUDAR ESSA CONDIÇÃO PARA SEMÁFORO
+	if(s_full.wait_for(lock,chrono::milliseconds(200),[] {return elements != spaces ;}) && positionToStore  != -1){
 		int product = getRandomNumber(p_id); // p_id is used as part of the seed
 		sharedMemory[positionToStore] = product; // putting the number in the memory
+		elements += 1;
+		produced +=1;
+		s_empty.notify_all();
 	}
 }
 
-void consumer(vector<int> sharedMemory,vector<int> &consumerMemory, int &numbersToProcess){
+void consume(){
+	unique_lock<mutex> lock(s_mutex);
 	int positionToGet = findProductPosition(sharedMemory); // -1 iff the vector is empty
-	if(positionToGet != -1){ // MUDAR ESSA CONDIÇÃO PARA SEMÁFORO
+	if(s_empty.wait_for(lock,chrono::milliseconds(200),[] {return elements > 0;}) && positionToGet  != -1){
 		cout << sharedMemory[positionToGet]<< " is prime? The answer is: "<< isPrime(sharedMemory[positionToGet])<< endl;
 		consumerMemory.push_back(sharedMemory[positionToGet]); // saving the number in local memory
 		sharedMemory[positionToGet] = 0; // cleaning the position after read a number
-		numbersToProcess -= 1;
+		elements -= 1;
+		consumed +=1;
+		s_full.notify_all();
 	}
 }
 
 
+void consumer(){
+	while(p_working == 0){
+		this_thread::yield();
+	}
+	while(consumed < numbersToProcess){
+		consume();
+	}
+}
+
+void producer(){
+	p_working += 1;
+	while(produced < numbersToProcess){
+		produce(produced);
+	}
+	p_working -= 1;
+}
 
 int main(int argc, char* argv[]) {
-	int spaces = atoi(argv[1]); // first argument is N, the number os spaces in shared memory
+	spaces = atoi(argv[1]); // first argument is N, the number os spaces in shared memory
 	int numberConsumerThreads = atoi(argv[2]);  // second argument is the number of consumer threads
 	int numberProducerThreads = atoi(argv[3]);  // third argument is the number of producer threads
+
+	// Measure of time 
+	chrono::time_point<std::chrono::system_clock> start, end;
+	start = chrono::system_clock::now();
+
+
 	int numberOfThreads = numberConsumerThreads+numberProducerThreads;
-	int numbersToProcess = 1000; // number of numbers that consumer will process
-	//thread consumerThread[numberConsumerThreads]; // creating consmer threads
-	//thread producerThread[numberProducerThreads]; // creating producer threads
+	numbersToProcess = 10; // number of numbers that consumer will process
 	thread producerConsumerThreads[numberOfThreads];
-	mutex s_mutex; // mutex semaphore 
-	// FIll memory vector with the argument spaces
+	// Fill memory vector with the argument spaces
 	for (int i = 0; i < spaces; ++i){
 		sharedMemory.push_back(0);
 	}
-
 	// Launch  Threads
 	for(int i = 0; i < numberProducerThreads;i++){
-		producerConsumerThreads[i] = thread(producer,i);
+		producerConsumerThreads[i] = thread(producer);
 	}
-	//for(int i = ProducerThreads; i < numberOfThreads;i++){
-	//	producerConsumerThreads[i] = thread(consumer,sharedMemory,consumerMemory);
-	//}
+	for(int i = numberProducerThreads; i < numberOfThreads;i++){
+		producerConsumerThreads[i] = thread(consumer);
+	}
 	// Join Threads
-	for (int i = 0; i < numberProducerThreads;i++){ // test only producers
+	for (int i = 0; i < numberOfThreads;i++){ 
 		producerConsumerThreads[i].join();
 	}
 
-	// TEST SHARED MEMORY
-
-	for(int i = 0; i < spaces;i++){
-		cout << sharedMemory[i]<< endl;
-	}
+	end = chrono::system_clock::now();
+	long elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds> (end-start).count();
+	cout << elapsed_seconds  << endl;
 	return 0;
 }
