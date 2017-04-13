@@ -6,7 +6,7 @@
 //#include <pthread> //posix thread for unix multi-platforming. does NOT work on windows
 #include <thread> //C++ thread library. implemented using pthread. "easier to code". works on windows
 #include <vector>
-#include <fstream>
+#include <fstream> //specifically for the csv export
 using namespace std;
 
 class Spinlock{
@@ -103,8 +103,8 @@ int main(int argc, char** argv){
                     }
                     t_fim = chrono::high_resolution_clock::now();
 
-                    auto t0 = chrono::duration_cast<chrono::microseconds>(t_after-t_before);
-                    auto t1 = chrono::duration_cast<chrono::microseconds>(t_fim-t_inicio);
+                    auto t0 = chrono::duration_cast<chrono::milliseconds>(t_after-t_before);
+                    auto t1 = chrono::duration_cast<chrono::milliseconds>(t_fim-t_inicio);
 
                     cout<<"N: "<<N[i]<<", ";
                     cout<<"K: "<<K[j]<<", ";
@@ -117,8 +117,8 @@ int main(int argc, char** argv){
         }
     }
     t_owari = chrono::high_resolution_clock::now();
-    auto t2 = chrono::duration_cast<chrono::microseconds>(t_owari-t_hajime);
+    auto t2 = chrono::duration_cast<chrono::milliseconds>(t_owari-t_hajime);
     cout<<"End of program."<<endl;
-    cout<<"Total time elapsed: "<<t2.count()<<"us"<<endl;
+    cout<<"Total time elapsed: "<<t2.count()<<"ms"<<endl;
     return 0;
 }
