@@ -73,11 +73,11 @@ public class Server extends UnicastRemoteObject implements RMI{
     }
 
     @Override
-    public double sumVector(Vector myvector, boolean abs) throws RemoteException {
+    public double sumVector(Vector myvector, double abs) throws RemoteException {
         // Return the sum of all elements in myvector. If vector = true return the sum of the absolute values
         double result = 0;
         int i;
-        if(!abs){
+        if(abs == 0){
             for(i = 0;i < myvector.size();i++){
                 result = result + (double) myvector.get(i);
             }
@@ -103,13 +103,13 @@ public class Server extends UnicastRemoteObject implements RMI{
     }
 
     @Override
-    public double edgeVector(Vector myvector, String edge) throws RemoteException {
+    public double edgeVector(Vector myvector, double edge) throws RemoteException {
         // return the min or max value of the value
-        // edge = max o return max
+        // edge = 1 o return max
         // other values of edge will return min
-        double result = 0;
+        double result = (double) myvector.get(0);
         int i;
-        if(edge == "max"){
+        if(edge == 1){
             for(i = 0;i < myvector.size();i++){
                 double number = (double) myvector.get(i);
                 if(number > result){

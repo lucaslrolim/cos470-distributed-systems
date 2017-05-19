@@ -19,7 +19,7 @@ public interface RMI extends Remote {
     public Vector logVector(Vector<Double> myvector,double base) throws RemoteException;
     public Vector multiplyVector(Vector<Double> myvector,double n) throws RemoteException;
     // Methods of type 2
-    public double sumVector(Vector myvector, boolean abs) throws RemoteException;
+    public double sumVector(Vector myvector, double abs) throws RemoteException;
     public double normVector(Vector myvector, double norm) throws RemoteException;
-    public double edgeVector(Vector myvector,String edge) throws RemoteException;
+    public double edgeVector(Vector myvector,double edge) throws RemoteException;
 } 

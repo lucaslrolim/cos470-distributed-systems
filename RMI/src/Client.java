@@ -18,28 +18,69 @@ import java.util.Vector;
 public class Client {
     public static void main(String args[]) throws RemoteException{
         Client client = new Client();
-        client.connectServer();
+        Vector myvector = new Vector();
+        int function = Integer.parseInt(args[0]);
+        double functionArgument = Double.parseDouble(args[1]);
+        int i;
+        for(i =2; i < args.length;i++){
+            myvector.add(Double.parseDouble(args[i]));
+        }
+        client.connectServer(function,functionArgument,myvector);
     }
 
-    private void connectServer() throws RemoteException {
+    private void connectServer(int function, double functionArgument,Vector<Double> myvector) throws RemoteException {
       try{
+          
+        //  function = 0  powVector
+        //  function = 1 public logVector
+        //  function = 2  public multiplyVector
+        //  Methods of type 2
+        //  function = 3 sumVector
+        //  function = 4 normVector
+        //  function = 5 edgeVector
+        
           // Conecting to the server
           Registry reg = LocateRegistry.getRegistry("127.0.0.1",8083);
           RMI rmi = (RMI) reg.lookup("server");
           //
-          
+
           System.out.println("Connected to the server");
-          Vector myvector = new Vector();
-          myvector.add((double)1);
-          myvector.add((double)2);
-          myvector.add((double)3);
-          double pow = 2;
-          double resultVector = rmi.sumVector(myvector,false);
+
+          switch(function){
+              case 0:
+                Vector<Double> resultVector = rmi.powVector(myvector,functionArgument);
+                System.out.println(resultVector);
+                break;
+              case 1:
+                Vector<Double> resultVector1 = rmi.logVector(myvector,functionArgument);
+                System.out.println(resultVector1);
+                break;
+              case 2:
+                Vector<Double> resultVector2 = rmi.multiplyVector(myvector,functionArgument);
+                System.out.println(resultVector2);
+                break;
+              case 3:
+                double resultVector3 = rmi.sumVector(myvector,functionArgument);
+                System.out.println(resultVector3);
+                break;
+              case 4:
+                double resultVector4 = rmi.normVector(myvector,functionArgument);
+                System.out.println(resultVector4);
+                break;
+              case 5:
+                double resultVector5 = rmi.edgeVector(myvector,functionArgument);
+                System.out.println(resultVector5);
+                break;                
+          }
+          
+          
+          
+          
           //Enumeration e = resultVector.elements();
           //while (e.hasMoreElements()) {         
           //   System.out.println("Number = " + e.nextElement());
           //} 
-          System.out.println(resultVector);
+          
     }
       catch(Exception e){
           System.out.println(e);
