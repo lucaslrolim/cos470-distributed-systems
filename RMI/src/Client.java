@@ -5,6 +5,7 @@ import java.rmi.registry.Registry;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,9 +22,11 @@ public class Client {
         Vector myvector = new Vector();
         int function = Integer.parseInt(args[0]);
         double functionArgument = Double.parseDouble(args[1]);
+        int n = 100000000;
         int i;
-        for(i =2; i < args.length;i++){
-            myvector.add(Double.parseDouble(args[i]));
+        for(i =0; i < n;i++){
+            double randomNum = ThreadLocalRandom.current().nextInt(1, 30 + 1);
+            myvector.add(randomNum);
         }
         client.connectServer(function,functionArgument,myvector);
     }
@@ -45,7 +48,7 @@ public class Client {
           //
 
           System.out.println("Connected to the server");
-
+          long startTime = System.currentTimeMillis();
           switch(function){
               case 0:
                 Vector<Double> resultVector = rmi.powVector(myvector,functionArgument);
@@ -72,15 +75,9 @@ public class Client {
                 System.out.println(resultVector5);
                 break;                
           }
-          
-          
-          
-          
-          //Enumeration e = resultVector.elements();
-          //while (e.hasMoreElements()) {         
-          //   System.out.println("Number = " + e.nextElement());
-          //} 
-          
+          long estimatedTime = System.currentTimeMillis() - startTime;
+          System.out.println("Estimated time: "+ estimatedTime + " milissegundos");
+                
     }
       catch(Exception e){
           System.out.println(e);

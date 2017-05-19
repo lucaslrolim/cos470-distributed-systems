@@ -24,7 +24,7 @@ public class Server extends UnicastRemoteObject implements RMI{
     
     public static void main(String args[]){
         try{
-            // using port 8081 and a localhost
+            // using port 8083 and a localhost
             Registry reg = LocateRegistry.createRegistry(8083);
             reg.rebind("server", new Server());
             System.out.print("Server started");
