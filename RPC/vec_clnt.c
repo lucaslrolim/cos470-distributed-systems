@@ -25,12 +25,12 @@ powvector_1(parameters *argp, CLIENT *clnt)
 }
 
 resultVector *
-logvector_1(parameters *argp, CLIENT *clnt)
+shiftvector_1(parameters *argp, CLIENT *clnt)
 {
 	static resultVector clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, logVector,
+	if (clnt_call (clnt, shiftVector,
 		(xdrproc_t) xdr_parameters, (caddr_t) argp,
 		(xdrproc_t) xdr_resultVector, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
@@ -70,12 +70,12 @@ sumvector_1(parameters *argp, CLIENT *clnt)
 }
 
 int *
-normvector_1(parameters *argp, CLIENT *clnt)
+thresholdvector_1(parameters *argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, normVector,
+	if (clnt_call (clnt, thresholdVector,
 		(xdrproc_t) xdr_parameters, (caddr_t) argp,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {

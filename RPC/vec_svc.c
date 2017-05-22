@@ -21,10 +21,10 @@ vec_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
 		parameters powvector_1_arg;
-		parameters logvector_1_arg;
+		parameters shiftvector_1_arg;
 		parameters multiplyvector_1_arg;
 		parameters sumvector_1_arg;
-		parameters normvector_1_arg;
+		parameters thresholdvector_1_arg;
 		parameters edgevector_1_arg;
 	} argument;
 	char *result;
@@ -42,10 +42,10 @@ vec_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		local = (char *(*)(char *, struct svc_req *)) powvector_1_svc;
 		break;
 
-	case logVector:
+	case shiftVector:
 		_xdr_argument = (xdrproc_t) xdr_parameters;
 		_xdr_result = (xdrproc_t) xdr_resultVector;
-		local = (char *(*)(char *, struct svc_req *)) logvector_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) shiftvector_1_svc;
 		break;
 
 	case multiplyVector:
@@ -60,10 +60,10 @@ vec_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		local = (char *(*)(char *, struct svc_req *)) sumvector_1_svc;
 		break;
 
-	case normVector:
+	case thresholdVector:
 		_xdr_argument = (xdrproc_t) xdr_parameters;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) normvector_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) thresholdvector_1_svc;
 		break;
 
 	case edgeVector:

@@ -74,7 +74,7 @@ public class Server extends UnicastRemoteObject implements RMI{
 
     @Override
     public double sumVector(Vector myvector, double abs) throws RemoteException {
-        // Return the sum of all elements in myvector. If vector = true return the sum of the absolute values
+        // Return the sum of all elements in myvector. If abs = true return the sum of the absolute values
         double result = 0;
         int i;
         if(abs == 0){

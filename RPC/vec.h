@@ -16,7 +16,6 @@ extern "C" {
 
 struct parameters {
 	int vector[100];
-	int function;
 	int functionParameter;
 };
 typedef struct parameters parameters;
@@ -33,18 +32,18 @@ typedef struct resultVector resultVector;
 #define powVector 1
 extern  resultVector * powvector_1(parameters *, CLIENT *);
 extern  resultVector * powvector_1_svc(parameters *, struct svc_req *);
-#define logVector 2
-extern  resultVector * logvector_1(parameters *, CLIENT *);
-extern  resultVector * logvector_1_svc(parameters *, struct svc_req *);
+#define shiftVector 2
+extern  resultVector * shiftvector_1(parameters *, CLIENT *);
+extern  resultVector * shiftvector_1_svc(parameters *, struct svc_req *);
 #define multiplyVector 3
 extern  resultVector * multiplyvector_1(parameters *, CLIENT *);
 extern  resultVector * multiplyvector_1_svc(parameters *, struct svc_req *);
 #define sumVector 4
 extern  int * sumvector_1(parameters *, CLIENT *);
 extern  int * sumvector_1_svc(parameters *, struct svc_req *);
-#define normVector 5
-extern  int * normvector_1(parameters *, CLIENT *);
-extern  int * normvector_1_svc(parameters *, struct svc_req *);
+#define thresholdVector 5
+extern  int * thresholdvector_1(parameters *, CLIENT *);
+extern  int * thresholdvector_1_svc(parameters *, struct svc_req *);
 #define edgeVector 6
 extern  int * edgevector_1(parameters *, CLIENT *);
 extern  int * edgevector_1_svc(parameters *, struct svc_req *);
@@ -54,18 +53,18 @@ extern int vec_prog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 #define powVector 1
 extern  resultVector * powvector_1();
 extern  resultVector * powvector_1_svc();
-#define logVector 2
-extern  resultVector * logvector_1();
-extern  resultVector * logvector_1_svc();
+#define shiftVector 2
+extern  resultVector * shiftvector_1();
+extern  resultVector * shiftvector_1_svc();
 #define multiplyVector 3
 extern  resultVector * multiplyvector_1();
 extern  resultVector * multiplyvector_1_svc();
 #define sumVector 4
 extern  int * sumvector_1();
 extern  int * sumvector_1_svc();
-#define normVector 5
-extern  int * normvector_1();
-extern  int * normvector_1_svc();
+#define thresholdVector 5
+extern  int * thresholdvector_1();
+extern  int * thresholdvector_1_svc();
 #define edgeVector 6
 extern  int * edgevector_1();
 extern  int * edgevector_1_svc();

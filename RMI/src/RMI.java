@@ -16,7 +16,7 @@ import java.util.Vector;
 public interface RMI extends Remote {
     // Methods of type 1
     public Vector powVector(Vector<Double> myvector,double power) throws RemoteException;
-    public Vector logVector(Vector<Double> myvector,double base) throws RemoteException;
+    public Vector shiftVector(Vector<Double> myvector,double base) throws RemoteException;
     public Vector multiplyVector(Vector<Double> myvector,double n) throws RemoteException;
     // Methods of type 2
     public double sumVector(Vector myvector, double abs) throws RemoteException;

@@ -14,9 +14,6 @@ callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 	CLIENT *clnt;
 	resultVector  *resultES;
 	int  *resultIN;
-
-
-
 	parameters  parameters;
 
 #ifndef	DEBUG
@@ -41,7 +38,7 @@ callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 			}
 			break;
 		case 2:
-			resultES = logvector_1(&parameters, clnt);
+			resultES = shiftvector_1(&parameters, clnt);
 			if (resultES == (resultVector *) NULL) {
 				clnt_perror (clnt, "call failed");
 			}
@@ -59,7 +56,7 @@ callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 			}		
 			break;
 		case 5:
-			resultIN= normvector_1(&parameters, clnt);
+			resultIN= thresholdvector_1(&parameters, clnt);
 			if (resultIN == (int *) NULL) {
 				clnt_perror (clnt, "call failed");
 			}
@@ -79,7 +76,7 @@ callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 				printf("\n");
 		}
 		else{
-			printf(" %i ", *resultESIN);
+			printf(" %i ", *resultIN);
 		}
 
 
@@ -106,9 +103,9 @@ main (int argc, char *argv[])
 	int vector[numberOfelements];
 	int i;
 	for(i =0; i < numberOfelements;i++){
-		vector[i] = rand() % 10;
+		vector[i] = rand() % 100;
 	}
-	printf("testeC %d \n",vector[1]);
 	callServer (host,vector,function,functionParameter);
 exit (0);
 }
+
