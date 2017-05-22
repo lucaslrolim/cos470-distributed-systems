@@ -11,21 +11,32 @@ powvector_1_svc(parameters *argp, struct svc_req *rqstp)
 {
 	static resultVector  result;
 
-	/*
-	 * insert server code here
-	 */
-
+	int i;
+	int j;
+	int number;
+	int mult;
+	for(i = 0; i < 100;i++){
+		int mult = argp->vector[i];
+		int number = argp->vector[i];
+		for(j =1; j < argp->functionParameter ; j++){
+			number = number * mult;
+		}
+		result.rVector[i] = number;
+	}
 	return &result;
 }
+
+// Mudar esse metodo para o nome shift
 
 resultVector *
 logvector_1_svc(parameters *argp, struct svc_req *rqstp)
 {
 	static resultVector  result;
 
-	/*
-	 * insert server code here
-	 */
+	int i;
+	for(i =0; i < 100;i++){
+		result.rVector[i] = argp->vector[i] + argp->functionParameter;
+	}
 
 	return &result;
 }
@@ -37,7 +48,7 @@ multiplyvector_1_svc(parameters *argp, struct svc_req *rqstp)
 
 	int i;
 	for(i =0; i < 100;i++){
-		result.rVector[i] = argp->vector[i] *2;;
+		result.rVector[i] = argp->vector[i] * argp->functionParameter;
 	}
 
 

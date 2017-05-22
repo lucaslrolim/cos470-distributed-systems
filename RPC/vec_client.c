@@ -9,21 +9,13 @@
 #include <stdlib.h>
 
 void
-callServer(char *host,int vector[])
+callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 {
 	CLIENT *clnt;
-	resultVector  *result_1;
-	parameters  powvector_1_arg;
-	resultVector  *result_2;
-	parameters  logvector_1_arg;
-	resultVector  *result_3;
-	parameters  multiplyvector_1_arg;
-	int  *result_4;
-	parameters  sumvector_1_arg;
-	int  *result_5;
-	parameters  normvector_1_arg;
-	int  *result_6;
-	parameters  edgevector_1_arg;
+	resultVector  *resultES;
+	int  *resultIN;
+
+
 
 	parameters  parameters;
 
@@ -34,46 +26,63 @@ callServer(char *host,int vector[])
 		exit (1);
 	}
 #endif	/* DEBUG */
-	edgevector_1_arg.function = 161095;
+	
+	parameters.functionParameter = functionParameter;
 	int i;
 	for(i =0; i < 100;i++){
 		parameters.vector[i] = vector[i];
 	}
 
+	switch (pickedFunction){
+		case 1:
+			resultES = powvector_1(&parameters, clnt);
+			if (resultES == (resultVector *) NULL) {
+			clnt_perror (clnt, "call failed");
+			}
+			break;
+		case 2:
+			resultES = logvector_1(&parameters, clnt);
+			if (resultES == (resultVector *) NULL) {
+				clnt_perror (clnt, "call failed");
+			}
+			break;
+		case 3:
+			resultES = multiplyvector_1(&parameters, clnt);
+			if (resultES == (resultVector *) NULL) {
+			clnt_perror (clnt, "call failed");
+			}
+			break;
+		case 4:
+		resultIN = sumvector_1(&parameters, clnt);
+			if (resultIN == (int *) NULL) {
+				clnt_perror (clnt, "call failed");
+			}		
+			break;
+		case 5:
+			resultIN= normvector_1(&parameters, clnt);
+			if (resultIN == (int *) NULL) {
+				clnt_perror (clnt, "call failed");
+			}
+			break;
+		case 6:
+			resultIN = edgevector_1(&parameters, clnt);
+			if (resultIN == (int *) NULL) {
+				clnt_perror (clnt, "call failed");
+			}
+			break;
+		}
 
-	result_1 = powvector_1(&powvector_1_arg, clnt);
-	if (result_1 == (resultVector *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_2 = logvector_1(&logvector_1_arg, clnt);
-	if (result_2 == (resultVector *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
+		if (pickedFunction < 4){	
+			for(i =0; i < 100;i++){
+				printf(" %i ", resultES->rVector[i]);
+			}
+				printf("\n");
+		}
+		else{
+			printf(" %i ", *resultESIN);
+		}
 
 
-	result_3 = multiplyvector_1(&parameters, clnt);
-	if (result_3 == (resultVector *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	else{
-		printf("TesteS %i\n ", result_3->rVector[1]);
-	 }
-
-	result_4 = sumvector_1(&sumvector_1_arg, clnt);
-	if (result_4 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_5 = normvector_1(&normvector_1_arg, clnt);
-	if (result_5 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_6 = edgevector_1(&edgevector_1_arg, clnt);
-	if (result_6 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	// else{
-	// 	printf("TesteS %i\n ", *result_6);
-	// }
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
@@ -90,6 +99,8 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 	host = argv[1];
+	int function = atoi(argv[2]);
+	int functionParameter = atoi(argv[3]);
 	int numberOfelements = 100;
 	srand(time(NULL));
 	int vector[numberOfelements];
@@ -97,7 +108,7 @@ main (int argc, char *argv[])
 	for(i =0; i < numberOfelements;i++){
 		vector[i] = rand() % 10;
 	}
-	printf("testeC %d",vector[1]);
-	callServer (host,vector);
+	printf("testeC %d \n",vector[1]);
+	callServer (host,vector,function,functionParameter);
 exit (0);
 }
