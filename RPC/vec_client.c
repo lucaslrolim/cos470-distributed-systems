@@ -7,6 +7,7 @@
 #include "vec.h"
 #include <time.h>
 #include <stdlib.h>
+#include <omp.h>
 
 void
 callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
@@ -15,7 +16,9 @@ callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 	resultVector  *resultES;
 	int  *resultIN;
 	parameters  parameters;
-
+	int nthreads = 10;
+	int tid;
+	
 #ifndef	DEBUG
 	clnt = clnt_create (host, VEC_PROG, VEC_VERS, "udp");
 	if (clnt == NULL) {
@@ -96,6 +99,8 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 	host = argv[1];
+	int nthreads = 10;
+	int tid;
 	int function = atoi(argv[2]);
 	int functionParameter = atoi(argv[3]);
 	int numberOfelements = 100;
