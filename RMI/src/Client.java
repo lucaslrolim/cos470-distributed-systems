@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class Client {
     public static int resultINT;
-    public static Vector<Vector<Integer>> resultVEC = new Vector<Vector<Integer>>();
+    public static Vector<Vector<Double>> resultVEC = new Vector<Vector<Double>>();
     public static void main(String args[]) throws RemoteException{
         Vector myvector = new Vector();
         int threads = Integer.parseInt(args[0]);
@@ -30,11 +30,11 @@ public class Client {
         int chunkSize = n/threads;
         int i = 0;
         int j;
-        Vector<Vector<Integer>> chunks = new Vector<Vector<Integer>>();
+        Vector<Vector<Double>> chunks = new Vector<Vector<Double>>();
           while(i < n){
-              Vector<Integer> tempChunck = new Vector<Integer>();
+              Vector<Double> tempChunck = new Vector<Double>();
               for(j = 0;j < chunkSize;j++){
-                    int randomNum = ThreadLocalRandom.current().nextInt(1, 30 + 1);
+                    double randomNum = ThreadLocalRandom.current().nextInt(1, 100 + 1);
                     myvector.add(randomNum);
                     tempChunck.add(randomNum);
               }

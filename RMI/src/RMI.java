@@ -15,9 +15,9 @@ import java.util.Vector;
  */
 public interface RMI extends Remote {
     // Methods of type 1
-    public Vector powVector(Vector<Integer> myvector,int power) throws RemoteException;
-    public Vector shiftVector(Vector<Integer> myvector,int base) throws RemoteException;
-    public Vector multiplyVector(Vector<Integer> myvector,int n) throws RemoteException;
+    public Vector powVector(Vector<Double> myvector,double power) throws RemoteException;
+    public Vector shiftVector(Vector<Double> myvector,double base) throws RemoteException;
+    public Vector multiplyVector(Vector<Double> myvector,double n) throws RemoteException;
     //public Vector getChunckVector(Vector<Integer> myvector,int sIndex,int eIndex) throws RemoteException;
     // Methods of type 2
     public int sumVector(Vector myvector, int abs) throws RemoteException;

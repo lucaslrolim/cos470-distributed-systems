@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerCall implements Runnable{
-    private Vector<Integer> vector = new Vector<Integer>();
+    private Vector<Double> vector = new Vector<Double>();
     private int function;
     private int functionParameter;
     public Vector<Integer> resultVec;
@@ -19,7 +19,7 @@ public class ServerCall implements Runnable{
     public void setFunctionParameter(int functionParameter){
         this.functionParameter = functionParameter;
     }
-    public void setVector(Vector<Integer> vector){
+    public void setVector(Vector<Double> vector){
         this.vector = vector;
     }
     
@@ -31,7 +31,7 @@ public class ServerCall implements Runnable{
     public int getFunctionParameter(){
         return functionParameter;
     }
-    public Vector<Integer> getVector(){
+    public Vector<Double> getVector(){
         return vector;
     }
     public Vector<Integer> getResultVector(){
@@ -49,8 +49,10 @@ public class ServerCall implements Runnable{
             Logger.getLogger(ServerCall.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void connectServer(int function, int functionArgument,Vector<Integer> myvector) throws RemoteException {
+    synchronized public void addInCLient(int number){
+        Client.resultINT = Client.resultINT + number;
+    }
+    private void connectServer(int function, int functionArgument,Vector<Double> myvector) throws RemoteException {
       try{
           
         //  function = 0  powVector
@@ -68,29 +70,29 @@ public class ServerCall implements Runnable{
 
           switch(function){
               case 0:
-                Vector<Integer> resultVector = rmi.powVector(myvector,functionArgument);
+                Vector<Double> resultVector = rmi.powVector(myvector,functionArgument);
                  Client.resultVEC.add(resultVector);
                 break;
               case 1:
-                Vector<Integer> resultVector1 = rmi.shiftVector(myvector,functionArgument);
+                Vector<Double> resultVector1 = rmi.shiftVector(myvector,functionArgument);
                  Client.resultVEC.add(resultVector1);
                 break;
               case 2:
-                Vector<Integer> resultVector2 = rmi.multiplyVector(myvector,functionArgument);
+                Vector<Double> resultVector2 = rmi.multiplyVector(myvector,functionArgument);
 
                 Client.resultVEC.add(resultVector2);
                 break;
               case 3:
                 int resultVector3 = rmi.sumVector(myvector,functionArgument);
-                Client.resultINT = Client.resultINT + resultVector3;
+                addInCLient(resultVector3);
                 break;
               case 4:
                 int resultVector4 = rmi.thresholdVector(myvector,functionArgument);
-                Client.resultINT = Client.resultINT + resultVector4 ;
+                addInCLient(resultVector4);
                 break;
               case 5:
                 int resultVector5 = rmi.evenVector(myvector,functionArgument);
-                Client.resultINT = Client.resultINT + resultVector5;
+                addInCLient(resultVector5);
                 break;
               case 6:        
                  break;

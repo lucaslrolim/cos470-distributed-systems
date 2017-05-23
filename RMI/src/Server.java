@@ -35,20 +35,20 @@ public class Server extends UnicastRemoteObject implements RMI{
     }
 
     @Override
-    public Vector powVector(Vector<Integer> myvector, int power) throws RemoteException {
+    public Vector powVector(Vector<Double> myvector, double power) throws RemoteException {
         // Return a vector result, where each element is equal to myvector[i]^power 
-        Vector<Integer> result = myvector;
+        Vector<Double> result = myvector;
         int i;
         for(i = 0;i < result.size();i++){
-            result.set(i, (int)Math.pow(result.get(i), power));
+            result.set(i, (double)Math.pow(result.get(i), power));
         }
         return result;
     }
 
     @Override
-    public Vector shiftVector(Vector<Integer> myvector, int base) throws RemoteException {
+    public Vector shiftVector(Vector<Double> myvector, double base) throws RemoteException {
         // Return a vector result, where each element is equal to myvector[i]  + base
-        Vector<Integer> result = myvector;
+        Vector<Double> result = myvector;
         int i;
         for(i = 0;i < result.size();i++){
             result.set(i, result.get(i) + base);
@@ -57,12 +57,12 @@ public class Server extends UnicastRemoteObject implements RMI{
     }
 
     @Override
-    public Vector multiplyVector(Vector<Integer> myvector, int n) throws RemoteException {
+    public Vector multiplyVector(Vector<Double>myvector, double n) throws RemoteException {
         // Return a vector result, where each element is equal to myvector[i] multiply by n
-        Vector<Integer> result = myvector;
+        Vector<Double> result = myvector;
         int i;
         for(i = 0;i < result.size();i++){
-            int number = result.get(i);
+            double number = result.get(i);
             result.set(i, number * n);
         }
         return result;
