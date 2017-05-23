@@ -59,7 +59,7 @@ public class ServerCall implements Runnable{
         //  Methods of type 2
         //  function = 3 sumVector
         //  function = 4 normVector
-        //  function = 5 edgeVector
+        //  function = 5 evenVector
         
           // Conecting to the server
           Registry reg = LocateRegistry.getRegistry("127.0.0.1",8056);
@@ -69,21 +69,20 @@ public class ServerCall implements Runnable{
           switch(function){
               case 0:
                 Vector<Integer> resultVector = rmi.powVector(myvector,functionArgument);
-                this.resultVec = resultVector;
+                 Client.resultVEC.add(resultVector);
                 break;
               case 1:
                 Vector<Integer> resultVector1 = rmi.shiftVector(myvector,functionArgument);
-                this.resultVec = resultVector1;
+                 Client.resultVEC.add(resultVector1);
                 break;
               case 2:
                 Vector<Integer> resultVector2 = rmi.multiplyVector(myvector,functionArgument);
-                System.out.println(resultVector2);
-                this.resultVec = resultVector2;
+
+                Client.resultVEC.add(resultVector2);
                 break;
               case 3:
                 int resultVector3 = rmi.sumVector(myvector,functionArgument);
                 Client.resultINT = Client.resultINT + resultVector3;
-                 System.out.println("sumVector");
                 break;
               case 4:
                 int resultVector4 = rmi.thresholdVector(myvector,functionArgument);
@@ -92,7 +91,6 @@ public class ServerCall implements Runnable{
               case 5:
                 int resultVector5 = rmi.evenVector(myvector,functionArgument);
                 Client.resultINT = Client.resultINT + resultVector5;
-                System.out.println("evenVector");
                 break;
               case 6:        
                  break;

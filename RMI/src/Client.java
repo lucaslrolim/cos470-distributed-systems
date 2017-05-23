@@ -20,15 +20,14 @@ import java.util.logging.Logger;
 
 public class Client {
     public static int resultINT;
-    public static Vector<Integer> resultVEC;
+    public static Vector<Vector<Integer>> resultVEC = new Vector<Vector<Integer>>();
     public static void main(String args[]) throws RemoteException{
         Vector myvector = new Vector();
-        int function = Integer.parseInt(args[0]);
-        int functionArgument = Integer.parseInt(args[1]);
-//        int n = 100000000;
-        int n = 100;
-        int threads = 10;
-        int chunkSize = 10;
+        int threads = Integer.parseInt(args[0]);
+        int function = Integer.parseInt(args[1]);
+        int functionArgument = Integer.parseInt(args[2]);
+        int n = 10000000;
+        int chunkSize = n/threads;
         int i = 0;
         int j;
         Vector<Vector<Integer>> chunks = new Vector<Vector<Integer>>();
@@ -42,9 +41,6 @@ public class Client {
               chunks.add(tempChunck);
               i = i + chunkSize;
           }
-          System.out.println(myvector);
-          System.out.println("----");
-          System.out.println(chunks);
           List<Thread> threadList = new ArrayList<Thread>();
           long startTime = System.currentTimeMillis();
           for(i = 0;i< threads;i++){
@@ -58,7 +54,6 @@ public class Client {
           }
           for(Thread t : threadList) {
             try {
-                // waits for this thread to die
                 t.join();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,7 +62,12 @@ public class Client {
           long estimatedTime = System.currentTimeMillis() - startTime;
           
           System.out.println("Estimated time: "+ estimatedTime + " milissegundos");
-          System.out.println("Resultado: "+ resultINT);
+//          if(function < 3){
+//            System.out.println("Resultado: "+ resultVEC);
+//          }
+//          else{
+//            System.out.println("Resultado: "+ resultINT);
+//          }
     }
 
 }
