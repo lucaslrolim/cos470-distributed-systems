@@ -15,11 +15,12 @@ import java.util.Vector;
  */
 public interface RMI extends Remote {
     // Methods of type 1
-    public Vector powVector(Vector<Double> myvector,double power) throws RemoteException;
-    public Vector shiftVector(Vector<Double> myvector,double base) throws RemoteException;
-    public Vector multiplyVector(Vector<Double> myvector,double n) throws RemoteException;
+    public Vector powVector(Vector<Integer> myvector,int power) throws RemoteException;
+    public Vector shiftVector(Vector<Integer> myvector,int base) throws RemoteException;
+    public Vector multiplyVector(Vector<Integer> myvector,int n) throws RemoteException;
+    //public Vector getChunckVector(Vector<Integer> myvector,int sIndex,int eIndex) throws RemoteException;
     // Methods of type 2
-    public double sumVector(Vector myvector, double abs) throws RemoteException;
-    public double normVector(Vector myvector, double norm) throws RemoteException;
-    public double edgeVector(Vector myvector,double edge) throws RemoteException;
+    public int sumVector(Vector myvector, int abs) throws RemoteException;
+    public int thresholdVector(Vector myvector, int norm) throws RemoteException;
+    public int evenVector(Vector myvector,int edge) throws RemoteException;
 } 

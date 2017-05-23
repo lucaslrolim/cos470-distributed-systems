@@ -25,7 +25,7 @@ public class Server extends UnicastRemoteObject implements RMI{
     public static void main(String args[]){
         try{
             // using port 8083 and a localhost
-            Registry reg = LocateRegistry.createRegistry(8083);
+            Registry reg = LocateRegistry.createRegistry(8056);
             reg.rebind("server", new Server());
             System.out.print("Server started");
         }
@@ -35,97 +35,88 @@ public class Server extends UnicastRemoteObject implements RMI{
     }
 
     @Override
-    public Vector powVector(Vector<Double> myvector, double power) throws RemoteException {
+    public Vector powVector(Vector<Integer> myvector, int power) throws RemoteException {
         // Return a vector result, where each element is equal to myvector[i]^power 
-        Vector<Double> result = myvector;
+        Vector<Integer> result = myvector;
         int i;
         for(i = 0;i < result.size();i++){
-            result.set(i, Math.pow((double) result.get(i), power));
+            result.set(i, (int)Math.pow(result.get(i), power));
         }
         return result;
     }
 
     @Override
-    public Vector logVector(Vector<Double> myvector, double base) throws RemoteException {
-        // Return a vector result, where each element is equal to log in base "base" of myvector[i] 
-        if (base < 1){
-            System.out.println("Error, base must be > 1");
-        }
-        Vector<Double> result = myvector;
+    public Vector shiftVector(Vector<Integer> myvector, int base) throws RemoteException {
+        // Return a vector result, where each element is equal to myvector[i]  + base
+        Vector<Integer> result = myvector;
         int i;
         for(i = 0;i < result.size();i++){
-            // uses the log's proprety: logb(n) = ln(n) / ln(b), where the ln uses the neperian basis
-            result.set(i, Math.log((double) result.get(i))/Math.log(base));
+            result.set(i, result.get(i) + base);
         }
         return result;
     }
 
     @Override
-    public Vector multiplyVector(Vector<Double> myvector, double n) throws RemoteException {
+    public Vector multiplyVector(Vector<Integer> myvector, int n) throws RemoteException {
         // Return a vector result, where each element is equal to myvector[i] multiply by n
-        Vector<Double> result = myvector;
+        Vector<Integer> result = myvector;
         int i;
         for(i = 0;i < result.size();i++){
-            double number = (double) result.get(i);
+            int number = result.get(i);
             result.set(i, number * n);
         }
         return result;
     }
 
     @Override
-    public double sumVector(Vector myvector, double abs) throws RemoteException {
+    public int sumVector(Vector myvector, int abs) throws RemoteException {
         // Return the sum of all elements in myvector. If abs = true return the sum of the absolute values
-        double result = 0;
+        int result = 0;
         int i;
         if(abs == 0){
             for(i = 0;i < myvector.size();i++){
-                result = result + (double) myvector.get(i);
+                result = (int)myvector.get(i) + result;
             }
         }
         else{
              for(i = 0;i < myvector.size();i++){
-             result = result + abs((double) myvector.get(i));
+             result = result + abs((int)myvector.get(i));
             }
         }
         return result;
     }
 
     @Override
-    public double normVector(Vector myvector, double norm) throws RemoteException {
-        // return the n norm os myvector
-        double result = 0;
+    public int thresholdVector(Vector myvector, int k)throws RemoteException {
+        int result = 0;
         int i;
         for(i = 0;i < myvector.size();i++){
-            result = result + Math.pow((double) myvector.get(i),norm);
+            if((int)myvector.get(i) > k){
+                result = result + 1;
+            }
         }
-        result = Math.pow(result,1.0/norm);
         return result;
     }
-
     @Override
-    public double edgeVector(Vector myvector, double edge) throws RemoteException {
-        // return the min or max value of the value
-        // edge = 1 o return max
-        // other values of edge will return min
-        double result = (double) myvector.get(0);
+    public int evenVector(Vector myvector, int type) throws RemoteException {
+        int odd = 0;
+        int even = 0;
+        int number;
         int i;
-        if(edge == 1){
-            for(i = 0;i < myvector.size();i++){
-                double number = (double) myvector.get(i);
-                if(number > result){
-                    result =  number;
-                }   
+        for(i = 0;i < myvector.size();i++){
+            if((int)myvector.get(i) % 2 == 0){
+               even = even +1;
             }
+            else{
+               odd = odd +1;
+            }
+        }
+        if(type == 1){
+            return even;
         }
         else{
-            for(i = 0;i < myvector.size();i++){
-                double number = (double) myvector.get(i);
-                if(number < result){
-                    result =  number;
-                }   
-            }
-            
+            return odd;
         }
-        return result;
+
     }
 }
