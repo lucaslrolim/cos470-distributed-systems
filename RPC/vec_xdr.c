@@ -13,9 +13,9 @@ xdr_parameters (XDR *xdrs, parameters *objp)
 	int i;
 
 	if (xdrs->x_op == XDR_ENCODE) {
-		buf = XDR_INLINE (xdrs, (1 +  100000 )* BYTES_PER_XDR_UNIT);
+		buf = XDR_INLINE (xdrs, (1 +  10000 )* BYTES_PER_XDR_UNIT);
 		if (buf == NULL) {
-			 if (!xdr_vector (xdrs, (char *)objp->vector, 100000,
+			 if (!xdr_vector (xdrs, (char *)objp->vector, 10000,
 				sizeof (int), (xdrproc_t) xdr_int))
 				 return FALSE;
 			 if (!xdr_int (xdrs, &objp->functionParameter))
@@ -25,7 +25,7 @@ xdr_parameters (XDR *xdrs, parameters *objp)
 				register int *genp;
 
 				for (i = 0, genp = objp->vector;
-					i < 100000; ++i) {
+					i < 10000; ++i) {
 					IXDR_PUT_LONG(buf, *genp++);
 				}
 			}
@@ -33,9 +33,9 @@ xdr_parameters (XDR *xdrs, parameters *objp)
 		}
 		return TRUE;
 	} else if (xdrs->x_op == XDR_DECODE) {
-		buf = XDR_INLINE (xdrs, (1 +  100000 )* BYTES_PER_XDR_UNIT);
+		buf = XDR_INLINE (xdrs, (1 +  10000 )* BYTES_PER_XDR_UNIT);
 		if (buf == NULL) {
-			 if (!xdr_vector (xdrs, (char *)objp->vector, 100000,
+			 if (!xdr_vector (xdrs, (char *)objp->vector, 10000,
 				sizeof (int), (xdrproc_t) xdr_int))
 				 return FALSE;
 			 if (!xdr_int (xdrs, &objp->functionParameter))
@@ -45,7 +45,7 @@ xdr_parameters (XDR *xdrs, parameters *objp)
 				register int *genp;
 
 				for (i = 0, genp = objp->vector;
-					i < 100000; ++i) {
+					i < 10000; ++i) {
 					*genp++ = IXDR_GET_LONG(buf);
 				}
 			}
@@ -54,7 +54,7 @@ xdr_parameters (XDR *xdrs, parameters *objp)
 	 return TRUE;
 	}
 
-	 if (!xdr_vector (xdrs, (char *)objp->vector, 100000,
+	 if (!xdr_vector (xdrs, (char *)objp->vector, 10000,
 		sizeof (int), (xdrproc_t) xdr_int))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->functionParameter))
@@ -70,9 +70,9 @@ xdr_resultVector (XDR *xdrs, resultVector *objp)
 	int i;
 
 	if (xdrs->x_op == XDR_ENCODE) {
-		buf = XDR_INLINE (xdrs, ( 100000 ) * BYTES_PER_XDR_UNIT);
+		buf = XDR_INLINE (xdrs, ( 10000 ) * BYTES_PER_XDR_UNIT);
 		if (buf == NULL) {
-			 if (!xdr_vector (xdrs, (char *)objp->rVector, 100000,
+			 if (!xdr_vector (xdrs, (char *)objp->rVector, 10000,
 				sizeof (int), (xdrproc_t) xdr_int))
 				 return FALSE;
 		} else {
@@ -80,16 +80,16 @@ xdr_resultVector (XDR *xdrs, resultVector *objp)
 				register int *genp;
 
 				for (i = 0, genp = objp->rVector;
-					i < 100000; ++i) {
+					i < 10000; ++i) {
 					IXDR_PUT_LONG(buf, *genp++);
 				}
 			}
 		}
 		return TRUE;
 	} else if (xdrs->x_op == XDR_DECODE) {
-		buf = XDR_INLINE (xdrs, ( 100000 ) * BYTES_PER_XDR_UNIT);
+		buf = XDR_INLINE (xdrs, ( 10000 ) * BYTES_PER_XDR_UNIT);
 		if (buf == NULL) {
-			 if (!xdr_vector (xdrs, (char *)objp->rVector, 100000,
+			 if (!xdr_vector (xdrs, (char *)objp->rVector, 10000,
 				sizeof (int), (xdrproc_t) xdr_int))
 				 return FALSE;
 		} else {
@@ -97,7 +97,7 @@ xdr_resultVector (XDR *xdrs, resultVector *objp)
 				register int *genp;
 
 				for (i = 0, genp = objp->rVector;
-					i < 100000; ++i) {
+					i < 10000; ++i) {
 					*genp++ = IXDR_GET_LONG(buf);
 				}
 			}
@@ -105,7 +105,7 @@ xdr_resultVector (XDR *xdrs, resultVector *objp)
 	 return TRUE;
 	}
 
-	 if (!xdr_vector (xdrs, (char *)objp->rVector, 100000,
+	 if (!xdr_vector (xdrs, (char *)objp->rVector, 10000,
 		sizeof (int), (xdrproc_t) xdr_int))
 		 return FALSE;
 	return TRUE;

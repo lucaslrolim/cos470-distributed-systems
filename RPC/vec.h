@@ -15,13 +15,13 @@ extern "C" {
 
 
 struct parameters {
-	int vector[100000];
+	int vector[10000];
 	int functionParameter;
 };
 typedef struct parameters parameters;
 
 struct resultVector {
-	int rVector[100000];
+	int rVector[10000];
 };
 typedef struct resultVector resultVector;
 

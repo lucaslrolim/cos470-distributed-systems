@@ -1,4 +1,4 @@
-#define N 100000
+#define N 10000
 
 struct parameters{
 	int vector[N];

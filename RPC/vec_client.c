@@ -16,9 +16,7 @@ callServer(char *host,int vector[],int pickedFunction ,int functionParameter)
 	resultVector  *resultES;
 	int  *resultIN;
 	parameters  parameters;
-	int nthreads = 10;
-	int tid;
-	
+
 #ifndef	DEBUG
 	clnt = clnt_create (host, VEC_PROG, VEC_VERS, "udp");
 	if (clnt == NULL) {
@@ -113,4 +111,5 @@ main (int argc, char *argv[])
 	callServer (host,vector,function,functionParameter);
 exit (0);
 }
+
 
